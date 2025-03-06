@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="'Notifications: ' + ${user.username}"></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/notifications.css">
+</head>
+<body>
+
+<th:block th:insert="~{/fragments/header :: header}"></th:block>
+
+<div class="container">
+    <div class="my-profile">
+        <img th:src="${user.avatar}" alt="User Avatar" class="avatar">
+        <h3 th:text="${user.username}"></h3>
+        <p class="active-user" th:if="${user.isActive}">ACTIVE</p>
+        <p class="banned-user" th:if="${!user.isActive}">BANNED</p>
+        <p><strong>Rank:</strong> <span th:text="${user.role}"></span></p>
+        <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
+        <p><strong>Posts:</strong> <span th:text="${user.getUserPosts().size()}"></span></p>
+        <p><strong>Comments:</strong> <span th:text="${user.getComments().size()}"></span></p>
+        <p><strong>Rating:</strong> <span th:text="${user.getAverageRating()}"></span></p>
+        <p>
+            <strong th:if="${!#strings.isEmpty(user.firstName)}">First Name:</strong>
+            <span th:text="${user.firstName}"></span>
+        </p>
+        <p>
+            <strong th:if="${!#strings.isEmpty(user.lastName)}">Last Name:</strong>
+            <span th:text="${user.lastName}"></span>
+        </p>
+    </div>
+
+    <div class="main-content">
+        <h2>Notifications</h2>
+        <section class="notification-list">
+            <table class="posts-table">
+                <thead>
+                <tr>
+                    <th>Message</th>
+                    <th>Date</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="notification : ${unreadNotifications}" th:if="${unreadNotifications.size() != 0}">
+                    <td th:if="${!notification.read}">
+                        <a th:href="@{/notifications/read/{id}(id=${notification.id})}" th:text="${notification.message}"></a>
+                    </td>
+                    <td th:if="${notification}" th:text="${#temporals.format(notification.createdAt, 'dd MMM yyyy HH:mm')}"></td>
+                </tr>
+                <tr th:unless="${unreadNotifications.size() != 0}">
+                    <td colspan="2" style="text-align: center;" th:text="'No new notifications.'"></td>
+                </tr>
+                </tbody>
+            </table>
+
+
+        </section>
+    </div>
+</div>
+
+<th:block th:insert="~{/fragments/footer :: footer}"></th:block>
+</body>
+</html>

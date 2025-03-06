@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="en">
+<body>
+<p>
+    <strong>Rating:</strong>
+    <th:block th:object="averageRating" th:replace="fragments/rating :: rating(rating=${user.averageRating})"></th:block>
+</p>
+
+</body>
+</html>

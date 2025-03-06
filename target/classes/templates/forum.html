@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum topics</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/forum.css">
+</head>
+<body>
+
+<th:block th:insert="~{/fragments/header :: header}"></th:block>
+
+    <section class="topics-list">
+        <div class="topics-header">
+            <h2>Forum topics</h2>
+            <a th:href="@{/forum/add-topic}" class="post-topic-btn">Add topic</a>
+        </div>
+        <table class="topics-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Comments</th>
+                    <th>Last Updated</th>
+                    <th>Last Comment Author</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr th:each="post : ${posts}">
+                <td><a th:href="'forum/topic/' + ${post.id}" th:text="${post.title}"></a></td>
+                <td><a th:href="'/user/' + ${post.authorId}" th:text="${post.authorUsername}"></a></td>
+                <td th:text="${post.commentsCount}"></td>
+                <td th:text="${post.lastUpdated}"></td>
+                <td>
+                    <a th:if="${post.lastCommentAuthorId != null}"
+                       th:href="'/user/' + ${post.lastCommentAuthorId}"
+                       th:text="${post.lastCommentAuthorUsername}">
+                    </a>
+                    <span th:if="${post.lastCommentAuthorId == null}" th:text="'No comments'"></span>
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+    </section>
+<th:block th:insert="~{/fragments/footer :: footer}"></th:block>
+</body>
+</html>

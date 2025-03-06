@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/shares.css">
+</head>
+<body>
+
+<th:block th:insert="~{/fragments/header :: header}"></th:block>
+    
+    <section class="search">
+        <p>Hmm, maybe your problem already solved? Try it!</p>
+        <form action="#">
+            <input type="text" name="search" id="search" placeholder="Search for solutions…">
+            <button class="search-btn">Try your luck</button>
+        </form>
+    </section>
+
+    <section class="shares-list">
+        <h2>Last Shares</h2>
+        <table class="shares-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Comments</th>
+                    <th>Last Updated</th>
+                    <th>Last Comment Author</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Share title 1</td>
+                    <td>Author 1</td>
+                    <td>5</td>
+                    <td>2025-01-18</td>
+                    <td>Commenter 1</td>
+                </tr>
+                <tr>
+                    <td>Share title 2</td>
+                    <td>Author 2</td>
+                    <td>12</td>
+                    <td>2025-01-17</td>
+                    <td>Commenter 2</td>
+                </tr>
+                <tr>
+                    <td>Share title 3</td>
+                    <td>Author 3</td>
+                    <td>3</td>
+                    <td>2025-01-16</td>
+                    <td>Commenter 3</td>
+                </tr>
+                <tr>
+                    <td>Share title 4</td>
+                    <td>Author 4</td>
+                    <td>10</td>
+                    <td>2025-01-15</td>
+                    <td>Commenter 4</td>
+                </tr>
+                <tr>
+                    <td>Share title 5</td>
+                    <td>Author 5</td>
+                    <td>7</td>
+                    <td>2025-01-14</td>
+                    <td>Commenter 5</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+<th:block th:insert="~{/fragments/footer :: footer}"></th:block>
+</body>
+</html>

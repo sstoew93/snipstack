@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<div th:fragment="header">
+    <header>
+        <a th:href="@{/}"><h1>SnipStack</h1></a>
+        <nav>
+            <ul>
+                <li><a th:href="@{/}">Home</a></li>
+                <li><a th:href="@{/contributors}">Top Contributors</a></li>
+                <li><a th:href="@{/forum}">Forum</a></li>
+
+                <li sec:authorize="!isAuthenticated()"><a th:href="@{/register}">Register</a></li>
+                <li sec:authorize="!isAuthenticated()"><a th:href="@{/login}">Login</a></li>
+
+                <li sec:authorize="isAuthenticated()" class="profile-dropdown">
+                    <div class="profile-avatar">
+                        <img th:src="${#authentication.principal.userAvatar}" alt="User Avatar" class="avatar">
+                    </div>
+                    <ul class="dropdown-menu">
+                        <li sec:authorize="hasAuthority('ADMIN')">
+                            <a th:href="@{/admin}">Admin Panel</a>
+                        </li>
+                        <li><a th:href="@{/user/profile}">Profile</a></li>
+                        <li><a th:href="@{/notifications}">
+                            Notifications
+                            <span th:text="'(' + ${#authentication.principal.unreadNotificationsCount} + ')'"></span>
+                        </a></li>
+                        <li><a th:href="@{/logout}">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="header-img">
+        <div class="header-content">
+            <h2>SnipStack</h2>
+            <p>Your go-to platform for sharing and discovering code solutions.</p>
+            <a href="#" class="header-btn">Explore Shares</a>
+        </div>
+    </section>
+</div>
+
+<script src="/js/dropdown-profile.js"></script>
+
+
+</body>
+</html>

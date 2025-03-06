@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${post.title}"></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/topic.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
+</head>
+<body>
+
+<th:block th:insert="~{/fragments/header :: header}"></th:block>
+
+<section class="topic-container">
+    <div class="author-profile">
+        <div class="author-header">
+            <img th:src="${post.authorPost.avatar}" alt="Author Avatar" class="author-avatar">
+            <h3><a th:href="'/user/' + ${post.authorPost.id}" th:text="${post.authorPost.username}"></a></h3>
+        </div>
+        <div class="author-info">
+            <p class="is-active" th:text="${post.authorPost.isActive} ? 'ACTIVE' : 'BANNED'"
+               th:classappend="${post.authorPost.isActive} ? 'active-class' : 'banned-class'"></p>
+            <p><strong>Rank:</strong> <span th:text="${post.authorPost.role}"></span></p>
+            <p><strong>Posts:</strong> <span th:text="${post.authorPost.userPosts.size()}"></span></p>
+            <p><strong>Comments:</strong> <span th:text="${post.authorPost.comments.size()}"></span></p>
+            <p><strong>Rating:</strong> <span th:text="${post.authorPost.getAverageRating()}"></span></p>
+        </div>
+    </div>
+
+    <div class="topic-message">
+        <h2 th:text="${post.title}"></h2>
+        <div th:if="${post.blockCode}">
+            <button class="toggle-snippet-button">Show Code</button>
+            <div class="code-snippet-container" style="display: none;">
+                <pre><code th:text="${post.blockCode}" class="language-javascript"></code></pre>
+            </div>
+        </div>
+        <div>
+        <p th:text="${post.content}"></p>
+
+        </div>
+    </div>
+
+</section>
+
+<section class="comments-container">
+    <div class="comments">
+        <div class="comment" th:each="comment : ${post.comments}">
+            <div class="author-profile">
+                <div class="author-header">
+                    <img th:src="${comment.authorComment.avatar}" alt="Comment Author Avatar" class="author-avatar">
+                    <h3><a th:href="'/user/' + ${comment.authorComment.id}" th:text="${comment.authorComment.username}"></a></h3>
+                </div>
+                <div class="author-info">
+                    <p class="is-active" th:text="${comment.authorComment.isActive} ? 'ACTIVE' : 'BANNED'"
+                       th:classappend="${comment.authorComment.isActive} ? 'active-class' : 'banned-class'"></p>
+                    <p><strong>Rank:</strong> <span th:text="${comment.authorComment.role}"></span></p>
+                    <p><strong>Posts:</strong> <span th:text="${comment.authorComment.userPosts.size()}"></span></p>
+                    <p><strong>Comments:</strong> <span th:text="${comment.authorComment.comments.size()}"></span></p>
+                    <p><strong>Rating:</strong> <span th:text="${comment.authorComment.getAverageRating()}"></span></p>
+                </div>
+            </div>
+
+            <div class="comment-message">
+                <div th:if="${comment.blockCode != null and !comment.blockCode.isEmpty()}">
+
+                <button class="toggle-snippet-button">Show Code</button>
+                    <div class="code-snippet-container" style="display: none;">
+                        <pre><code th:text="${comment.blockCode}" class="language-javascript"></code></pre>
+                    </div>
+                </div>
+                <p th:text="${comment.content}"></p>
+
+                <div class="footer-message">
+                    <form class="rating-form" action="/ratings" method="POST" data-has-voted="${userHasVoted}">
+                        <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+                        <input type="hidden" name="userId" th:value="${comment.authorComment.id}">
+                        <input type="hidden" name="postId" th:value="${post.id}">
+                        <input type="hidden" name="commentId" th:value="${comment.id}">
+                        <input type="hidden" name="value" id="ratingValue">
+
+                        <div class="star-rating">
+                            <span class="star" data-value="5">★</span>
+                            <span class="star" data-value="4">★</span>
+                            <span class="star" data-value="3">★</span>
+                            <span class="star" data-value="2">★</span>
+                            <span class="star" data-value="1">★</span>
+
+                            <div class="voted-message" style="display: none;">Voted already!</div>
+                        </div>
+                    </form>
+
+
+                    <div class="moderator-actions" th:if="${user != null and user.role != T(org.example.final_project.user.model.Role).USER}">
+                        <form th:action="@{/topic/{postId}/edit-comment/{commentId}(postId=${post.id}, commentId=${comment.id})}" method="GET">
+                            <button type="submit" class="edit-button">Edit</button>
+                        </form>
+                        <form th:action="@{/topic/{postId}/delete-comment/{commentId}(postId=${post.id}, commentId=${comment.id})}" method="POST">
+                            <input type="hidden" name="_method" value="DELETE"/>
+                            <button type="submit" class="delete-button"
+                                    onclick="return confirm('Are you sure you want to delete this comment?')">Delete</button>
+                        </form>
+
+                    </div>
+                    <div class="moderator-actions" th:if="${user != null and user.role == T(org.example.final_project.user.model.Role).USER}">
+                        <form th:action="@{/topic/{postId}/report-comment/{commentId}(postId=${post.id}, commentId=${comment.id})}" method="POST">
+                            <button type="submit" class="report-button"
+                                    onclick="return confirm('WARNING: RANDOM REPORTS WITHOUT ANY ISSUE WILL NOT BE TOLERATED!!! Are you sure you want to report this comment?')">Report</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <script src="/js/rating-update.js"></script>
+        </div>
+    </div>
+</section>
+
+<div class="login-prompt" th:if="${user == null}">
+    <p class="login-message">
+        <a th:href="@{/login}" class="login-link">Log in</a> to post a comment.
+    </p>
+</div>
+
+
+<div th:if="${user != null}">
+<section class="form-section">
+    <form class="form" th:action="@{/topics/{postId}/add(postId=${post.id})}" method="POST" th:object="${addComment}">
+        <div class="form-group">
+            <label for="code-snippet">Your code snip:</label>
+            <textarea id="code-snippet" name="codeSnippet" rows="4" placeholder="Paste your code snippet.." th:field="*{blockCode}"></textarea>
+
+            <label for="comment">Your comment:</label>
+            <textarea id="comment" name="comment" rows="4" required placeholder="What's your thoughts.." th:field="*{content}"></textarea>
+            <p class="error-msg" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>
+        </div>
+        <button type="submit" class="post-reply-button">Post Reply</button>
+    </form>
+
+</section>
+</div>
+
+<th:block th:insert="~{/fragments/footer :: footer}"></th:block>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="/js/accordeon-button.js"></script>
+
+</body>
+</html>

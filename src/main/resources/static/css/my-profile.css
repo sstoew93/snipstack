@@ -1,0 +1,154 @@
+.container {
+    display: flex;
+    padding: 20px;
+    margin: 0 auto 2em auto;
+    max-width: 1200px;
+}
+
+.my-profile {
+    width: 30%;
+    background-color: white;
+    padding: 15px;
+    margin-right: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.my-profile .avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+}
+
+.my-profile h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.my-profile p {
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.9em;
+}
+
+
+/* Main content */
+.main-content {
+    width: 70%;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+}
+
+.profile-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-form label {
+    margin-top: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.profile-form input,
+.profile-form textarea {
+    margin-top: 5px;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.btn-save {
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 30%;
+    margin: 20px auto 0 auto;
+}
+
+.btn-save:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+    transition: background 0.3s, transform 0.3s;
+}
+
+.change-password {
+    margin-top: 20px;
+}
+
+.change-password form {
+    display: flex;
+    flex-direction: column;
+}
+
+.change-password form label {
+    margin-top: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.change-password form input:focus, .profile-form input:focus {
+    border-color: #2d89ef;
+    outline: none;
+    box-shadow: 0 0 5px rgba(45, 137, 239, 0.3);
+}
+
+.change-password form input {
+    margin-top: 5px;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.change-password form .btn-save {
+    margin-top: 20px;
+    background-color: #FF6347;
+    width: 30%;
+}
+
+.change-password form .btn-save:hover {
+    background-color: #f44336;
+    transform: scale(1.05);
+    transition: background 0.3s, transform 0.3s;
+}
+
+.active-user {
+    border: 1px solid forestgreen;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 5px;
+    width: 30%;
+    margin: 0 auto;
+    background-color: #45a049;
+    font-weight: bold;
+}
+
+.banned-user {
+    border: 1px solid #f44336;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 5px;
+    width: 30%;
+    margin: 0 auto;
+    background-color: darkred;
+    font-weight: bold;
+}
+
+
+

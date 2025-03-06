@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Comment</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/edit-comment.css">
+</head>
+<body>
+
+<th:block th:insert="~{/fragments/header :: header}"></th:block>
+
+<section class="form-section">
+    <h2>Edit Comment</h2>
+
+    <form th:action="@{/topic/{postId}/edit-comment/{commentId}(postId=${postId}, commentId=${commentId})}"
+          th:object="${editComment}" method="POST" class="form">
+        <input type="hidden" name="_method" value="PUT"/>
+        <div class="form-group">
+            <label for="code-content">Code Snippet</label>
+            <textarea id="code-content" name="codeContent"
+                      th:field="*{codeBlock}" placeholder="Edit your comment" rows="6" ></textarea>
+            <p th:errors="*{codeBlock}"></p>
+            <label for="comment-content">Comment Content</label>
+            <textarea id="comment-content" name="commentContent"
+                      th:field="*{content}" placeholder="Edit your comment" rows="6" ></textarea>
+            <p th:errors="*{content}"></p>
+        </div>
+
+        <button type="submit" class="save-button">Save Changes</button>
+    </form>
+</section>
+
+<th:block th:insert="~{/fragments/footer :: footer}"></th:block>
+
+</body>
+</html>

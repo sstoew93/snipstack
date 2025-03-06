@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:title="${title}"></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/admin-panel.css">
+</head>
+<body>
+
+<th:block th:insert="~{/fragments/header :: header}"></th:block>
+
+<section class="admin-panel">
+    <aside class="sidebar">
+        <ul>
+            <li><a href="javascript:void(0);" onclick="showSection('manage-roles')">Manage Roles</a></li>
+            <li><a href="javascript:void(0);" onclick="showSection('banned-users')">Ban/Unban Users</a></li>
+            <li><a href="javascript:void(0);" onclick="showSection('reports-dashboard')">Reports Dashboard</a></li>
+            <li><a href="javascript:void(0);" onclick="showSection('statistics')">Statistics</a></li>
+        </ul>
+    </aside>
+    <main class="content">
+
+        <section id="manage-roles" class="content-section active">
+            <h2>Manage Roles and Permissions</h2>
+            <form th:action="@{/admin/updateRole}" th:method="PUT" id="role-form" th:object="${updateRole}">
+                <input type="hidden" name="_method" value="PUT" />
+                <div class="form-group">
+                    <label for="user-role">User</label>
+                    <input type="text" id="user-role" name="username" placeholder="Enter username" th:field="*{username}">
+                </div>
+                <div class="form-group">
+                    <label for="role">Role</label>
+                    <select id="role" name="role" th:field="*{role}">
+                        <option th:each="roleOption : ${T(org.example.final_project.user.model.Role).values()}"
+                                th:value="${roleOption}"
+                                th:text="${roleOption}">
+                        </option>
+                    </select>
+                </div>
+                <button class="regular-btn" type="submit">Update</button>
+            </form>
+        </section>
+
+        <section id="banned-users" class="content-section">
+            <div class="banned-users-list">
+                <div class="banned-users-header">
+                    <h2>Banned Users</h2>
+                    <form th:action="@{/admin/ban-user}" th:method="PUT" class="ban-user-form" th:object="${banUser}">
+                        <input type="hidden" name="_method" value="PUT" />
+                        <input type="text" id="banned-search" name="username" class="form-group" placeholder="Enter username" th:field="*{username}">
+                        <button class="regular-btn" type="submit">Ban</button>
+                    </form>
+                </div>
+                <table class="banned-users-table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody id="banned-users-table">
+                    <tr th:each="user : ${bannedUsers}">
+                        <td th:text="${user.id}"></td>
+                        <td th:text="${user.username}"></td>
+                        <td th:text="${user.email}"></td>
+                        <td>
+                            <form th:action="@{/admin/unban-user}" th:method="PUT">
+                                <input type="hidden" name="_method" value="PUT"/>
+                                <input type="hidden" name="username" th:value="${user.username}"/>
+                                <button class="regular-btn" type="submit">Unban</button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+
+                </table>
+            </div>
+        </section>
+
+        <section id="reports-dashboard" class="content-section">
+            <div class="reports-list">
+                <div class="reports-header">
+                    <h2>Reports Dashboard</h2>
+                    <p>Total Reports: <span th:text="${reports.size()}">0</span></p>
+                </div>
+                <table class="reports-table">
+                    <thead>
+                    <tr>
+                        <th>Report ID</th>
+                        <th>Reporter</th>
+                        <th>Reported User</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="report : ${reports}">
+                        <td th:text="${report.id}"></td>
+                        <td th:text="${report.reporter.username}"></td>
+                        <td th:text="${report.reported.username}"></td>
+                        <td>
+                            <form th:action="@{/admin/reports/resolve}" th:method="POST">
+                                <input type="hidden" name="reportId" th:value="${report.id}">
+                                <input type="hidden" name="_method" value="PUT"/>
+                                <button class="regular-btn" type="submit">Resolve</button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+
+        <section id="statistics" class="content-section">
+            <h2>Statistics</h2>
+            <div class="statistics">
+                <div class="hover-container">
+                    <h3>Today</h3>
+                    <p th:text="'Posts: ' + ${dailyStatistics.dailyPostCount}"></p>
+                    <p th:text="'Comments: ' + ${dailyStatistics.dailyCommentCount}"></p>
+                    <p th:text="'Registrations: ' + ${dailyStatistics.dailyRegistrationCount}"></p>
+                </div>
+<!--                <div class="hover-container">-->
+<!--                    <h3>Weekly</h3>-->
+<!--                    <p>Posts: 50</p>-->
+<!--                    <p>Comments: 120</p>-->
+<!--                    <p>Registrations: 30</p>-->
+<!--                </div>-->
+<!--                <div class="hover-container">-->
+<!--                    <h3>Monthly</h3>-->
+<!--                    <p>Posts: 200</p>-->
+<!--                    <p>Comments: 500</p>-->
+<!--                    <p>Registrations: 100</p>-->
+<!--                </div>-->
+<!--                <div class="hover-container">-->
+<!--                    <h3>Overall</h3>-->
+<!--                    <p th:text="'Posts:'"></p>-->
+<!--                    <p th:text="'Comments:'"></p>-->
+<!--                    <p>Registrations: 2000</p>-->
+<!--                </div>-->
+            </div>
+        </section>
+    </main>
+</section>
+
+<th:block th:insert="~{/fragments/footer :: footer}"></th:block>
+
+<script src="/js/admin-panel.js"></script>
+
+</body>
+</html>

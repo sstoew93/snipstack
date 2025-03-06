@@ -1,0 +1,36 @@
+.contributors-list {
+    margin: 20px 0;
+    background: white;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.contributors-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+}
+
+.contributors-table th, .contributors-table td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.contributors-table th {
+    background-color: #2d89ef;
+    font-weight: bold;
+    color: white;
+}
+
+.contributors-table tr:hover {
+    background-color: #f0f8ff;
+}
+
+.contributors-table td img {
+    width: 25px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+

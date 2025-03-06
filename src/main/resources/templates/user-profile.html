@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="'User profile: ' + ${user.username}"></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/profile.css">
+</head>
+<body>
+
+<th:block th:insert="~{/fragments/header :: header}"></th:block>
+
+<div class="container">
+    <div class="my-profile">
+        <img th:src="${user.avatar}" alt="User Avatar" class="avatar">
+        <h3 th:text="${user.username}"></h3>
+        <p class="active-user" th:if="${user.isActive}">ACTIVE</p>
+        <p class="banned-user" th:if="${!user.isActive}">BANNED</p>
+        <p><strong>Rank:</strong> <span th:text="${user.role}"></span></p>
+        <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
+        <p><strong>Posts:</strong> <span th:text="${user.getUserPosts().size()}"></span></p>
+        <p><strong>Comments:</strong> <span th:text="${user.getUserComments().size()}"></span></p>
+        <p><strong>Rating:</strong> <span th:text="${user.getAverageRating()}"></span></p>
+        <p>
+            <strong th:if="${!#strings.isEmpty(user.firstName)}">First Name:</strong>
+            <span th:text="${!#strings.isEmpty(user.firstName) ? user.firstName : ''}"></span>
+        </p>
+        <p>
+            <strong th:if="${!#strings.isEmpty(user.lastName)}">Last Name:</strong>
+            <span th:text="${!#strings.isEmpty(user.lastName) ? user.lastName : ''}"></span>
+        </p>
+    </div>
+
+    <div class="main-content">
+        <h2>User Last Posts</h2>
+        <section class="posts-list">
+            <table class="posts-table">
+                <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Comments</th>
+                    <th>Last Updated</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${user.getUserPosts().size() != 0}" th:each="post : ${user.getUserPosts()}">
+                    <td>
+                        <a th:href="@{/forum/topic/{id}(id=${post.id})}" th:text="${post.title}"></a>
+                    </td>
+                    <td th:text="${post.comments.size()}"></td>
+                    <td th:text="${#temporals.format(post.postedOn, 'dd MMM YYYY HH:mm')}"></td>
+                </tr>
+                <tr th:if="${user.getUserPosts().size() == 0}">
+                    <td colspan="3" style="text-align: center;">This user has no posts yet.</td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+</div>
+<th:block th:insert="~{/fragments/footer :: footer}"></th:block>
+</body>
+</html>

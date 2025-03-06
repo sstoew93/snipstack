@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/my-profile.css">
+</head>
+<body>
+
+<th:block th:insert="~{/fragments/header :: header}"></th:block>
+
+    <div class="container">
+        <div class="my-profile">
+            <img th:src="${user.avatar}" alt="User Avatar" class="avatar">
+            <h3 th:text="${user.username}"></h3>
+            <p class="active-user" th:if="${user.isActive}">ACTIVE</p>
+            <p class="banned-user" th:if="${!user.isActive}">BANNED</p>
+            <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
+            <p><strong>Posts:</strong> <span th:text="${user.getUserPosts().size()}"></span></p>
+            <p><strong>Comments:</strong> <span th:text="${user.getUserComments().size()}"></span></p>
+            <p><strong>Rating:</strong> <span th:text="${user.getAverageRating()}"></span></p>
+            <p>
+                <strong th:if="${!#strings.isEmpty(user.firstName)}">First Name:</strong>
+                <span th:text="${!#strings.isEmpty(user.firstName) ? user.firstName : ''}"></span>
+            </p>
+            <p>
+                <strong th:if="${!#strings.isEmpty(user.lastName)}">Last Name:</strong>
+                <span th:text="${!#strings.isEmpty(user.lastName) ? user.lastName : ''}"></span>
+            </p>
+
+
+        </div>
+
+        <div class="main-content">
+            <h2>User Profile Details</h2>
+            <section class="profile-details">
+                <h3>Profile Information</h3>
+                <form th:action="@{/user/profile/edit}" th:object="${editProfile}" class="profile-form" method="POST">
+                    <input type="hidden" name="_method" value="PUT"/>
+                    <input type="hidden" th:field="*{id}" />
+
+                    <label for="firstname">First name:</label>
+                    <input type="text" id="firstname" th:field="*{firstName}" placeholder="First name">
+
+                    <label for="lastname">Last name:</label>
+                    <input type="text" id="lastname" th:field="*{lastName}" placeholder="Last name">
+
+                    <label for="avatar">Avatar:</label>
+                    <input type="text" id="avatar" th:field="*{avatar}" placeholder="Link to your image">
+
+                    <button type="submit" class="btn-save">Save Changes</button>
+                </form>
+
+            </section>
+
+            <section class="change-password">
+                <h3>Change Password</h3>
+                <form class="password-form" th:action="@{/user/profile/edit-password}" method="POST" th:object="${changePassword}">
+                    <input type="hidden" name="_method" value="PUT"/>
+                    <label for="old-password">Old Password:</label>
+                    <input type="password" id="old-password" name="old-password" required th:field="*{oldPassword}" placeholder="Old Password">
+                    <p th:errors="*{oldPassword}" class="error-message"></p>
+                    
+                    <label for="new-password">New Password:</label>
+                    <input type="password" id="new-password" name="new-password" required th:field="*{newPassword}" placeholder="New Password">
+                    <p th:errors="*{newPassword}" class="error-message"></p>
+
+                    <label for="confirm-password">Confirm New Password:</label>
+                    <input type="password" id="confirm-password" name="confirm-password" required th:field="*{confirmPassword}" placeholder="Confirm new Password">
+                    <p th:errors="*{confirmPassword}" class="error-message"></p>
+
+                    <button type="submit" class="btn-save">Change Password</button>
+                </form>
+            </section>
+        </div>
+    </div>
+<th:block th:insert="~{/fragments/footer :: footer}"></th:block>
+</body>
+</html>

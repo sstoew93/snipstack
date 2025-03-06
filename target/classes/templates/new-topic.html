@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/new-topic.css">
+</head>
+<body>
+
+<th:block th:insert="~{/fragments/header :: header}"></th:block>
+
+<section class="form-section">
+    <h2>Add a New Topic</h2>
+    <form th:action="@{/forum/add-topic}" method="POST" class="form" th:object="${addTopic}">
+        <div class="form-group">
+            <label for="topic-title">Subject</label>
+            <input type="text" th:field="*{title}" id="topic-title" name="topic-title" placeholder="Enter the topic title" required>
+            <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
+        </div>
+        <div class="form-group">
+            <label for="topic-code-snippet">Code Snippet</label>
+            <textarea id="topic-code-snippet" th:field="*{codeBlock}" name="topic-content" placeholder="Paste code snippet" rows="10" required></textarea>
+            <p th:if="${#fields.hasErrors('codeBlock')}" th:errors="*{codeBlock}"></p>
+        </div>
+        <div class="form-group">
+            <label for="topic-content">Topic Content</label>
+            <textarea id="topic-content"  th:field="*{content}" name="topic-content" placeholder="Enter the topic content" rows="10" required></textarea>
+            <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>
+        </div>
+        <button type="submit" class="add-button">Add Topic</button>
+    </form>
+</section>
+<th:block th:insert="~{/fragments/footer :: footer}"></th:block>
+</body>
+</html>

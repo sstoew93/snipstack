@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/404.css">
+</head>
+<body>
+
+<th:block th:insert="~{/fragments/header :: header}"></th:block>
+
+<section class="error-404">
+    <div class="error-content">
+        <h2>Error 404</h2>
+        <p>Oops! The page you're looking for doesn't exist.</p>
+        <a href="/" class="error-btn">Go Back Home</a>
+    </div>
+</section>
+<th:block th:insert="~{/fragments/footer :: footer}"></th:block>
+</body>
+</html>

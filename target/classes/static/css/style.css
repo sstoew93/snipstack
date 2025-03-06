@@ -1,0 +1,232 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    font-family: "Lato", serif;
+    margin: 0;
+    padding: 0;
+    background: #f4f4f9;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    font-family: "Montserrat", sans-serif;
+}
+
+input {
+    font-family: monospace;
+}
+
+header {
+    background: #2d89ef;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Ensures everything aligns vertically */
+}
+
+.header-img {
+    position: relative;
+    height: 250px;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url('/images/photo-1529101091764-c3526daf38fe.avif') center center/cover no-repeat;
+    color: rgb(255, 255, 255);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.header-content {
+    max-width: 600px;
+    animation: fadeIn 2s ease-in-out;
+}
+
+.header-content a {
+    animation: fadeIn 4s ease-in-out;
+}
+
+header a {
+    text-decoration: none;
+    color: white;
+}
+
+.header-img h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.header-img p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.header-btn {
+    background: #2d89ef;
+    padding: 10px 20px;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background 0.3s, transform 0.3s;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    align-items: center; /* Ensures nav items are aligned with the avatar */
+}
+
+/* Navbar items */
+nav ul li {
+    margin: 0 15px;
+    display: flex;
+    align-items: center;
+}
+
+nav ul li a:hover {
+    color: #0056b3;
+    transition: all 0.4s ease;
+}
+
+nav ul li a {
+    transition:1s;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.search {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+    background: white;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.search input {
+    border-radius: 5px;
+    margin: 20px;
+    padding: 10px;
+    width: 300px;
+    border: 1px solid #acacac;
+    font-size: 1rem;
+}
+
+.search p {
+    font-size: 2em;
+}
+
+.search-btn {
+    background: #2d89ef;
+    display: block;
+    margin: 0 auto;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.search-btn:hover {
+    background: #0056b3;
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+}
+
+.search input:focus {
+    border-color: #2d89ef;
+    outline: none;
+    box-shadow: 0 0 5px rgba(45, 137, 239, 0.3);
+}
+
+footer {
+    background: #2d89ef;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 20px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.profile-dropdown {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.profile-avatar img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(45, 137, 239, 0.3);
+    cursor: pointer;
+}
+
+.dropdown-menu {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+    position: absolute;
+    top: 45px;
+    right: 0;
+    background: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    list-style: none;
+    padding: 10px 0;
+    min-width: 150px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-dropdown:hover .dropdown-menu,
+.profile-dropdown .dropdown-menu.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-menu li {
+    padding: 10px;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.dropdown-menu li a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+    font-size: 14px;
+    transition: background 0.2s ease;
+}
+
+
+

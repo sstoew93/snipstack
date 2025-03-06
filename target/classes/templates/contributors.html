@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Contributors</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/contributors.css">
+</head>
+<body>
+
+<th:block th:insert="~{/fragments/header :: header}"></th:block>
+
+<section class="contributors-list">
+    <h2>Top Contributors</h2>
+    <table class="contributors-table">
+        <thead>
+        <tr>
+            <th>Avatar</th>
+            <th>Username</th>
+            <th>Total Posts</th>
+            <th>Total Comments</th>
+            <th>Overall Rating</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${contributors}">
+            <td>
+                <img th:src="@{${user.avatar}}" alt="Avatar">
+            </td>
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.userPosts.size()}"></td>
+            <td th:text="${user.userComments.size()}"></td>
+            <td th:text="${user.getAverageRating}"></td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+
+<th:block th:insert="~{/fragments/footer :: footer}"></th:block>
+</body>
+</html>

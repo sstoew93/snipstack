@@ -1,0 +1,85 @@
+textarea {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 1rem;
+    width: 100%;
+    resize: none;
+}
+
+textarea:focus {
+    border-color: #2d89ef;
+    outline: none;
+    box-shadow: 0 0 5px rgba(45, 137, 239, 0.3);
+}
+
+.form-section {
+    margin: 20px auto 60px auto;
+    max-width: 600px;
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.form-section h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+    color: #333;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-group p {
+    color: #c80000;
+    font-weight: bold;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.form-group input, .form-group textarea {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 1rem;
+}
+
+.form-group input:focus, .form-group textarea:focus {
+    border-color: #2d89ef;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.save-button {
+    background: #2d89ef;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
+    width: 25%;
+    margin: 0 auto;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.save-button:hover {
+    background: #0056b3;
+    transform: scale(1.05);
+}
