@@ -41,10 +41,9 @@ public class Post {
     @JoinColumn(name = "author_id")
     private User authorPost;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("createdAt ASC")
     private List<Comment> comments = new ArrayList<>();
-
 
     
 }

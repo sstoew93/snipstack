@@ -32,7 +32,7 @@ public class NotificationService {
                 .message(message)
                 .isRead(false)
                 .createdAt(LocalDateTime.now())
-                .post(post)
+                .postId(post.getId())
                 .build();
 
         notificationRepository.save(notification);

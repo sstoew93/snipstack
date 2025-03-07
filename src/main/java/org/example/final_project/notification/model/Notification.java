@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.final_project.post.model.Post;
 import org.example.final_project.user.model.User;
 
 import java.time.LocalDateTime;
@@ -23,6 +22,8 @@ public class Notification {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    private UUID postId;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -30,10 +31,6 @@ public class Notification {
     private String message;
 
     private boolean isRead = false;
-
-    @ManyToOne
-    @JoinColumn(name = "post_id", nullable = false)
-    private Post post;
 
     private LocalDateTime createdAt = LocalDateTime.now();
 

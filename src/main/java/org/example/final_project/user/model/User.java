@@ -53,7 +53,7 @@ public class User {
     @Column(name = "is_active")
     private Boolean isActive;
 
-    @OneToMany(mappedBy = "authorPost", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "authorPost", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Post> userPosts = new ArrayList<>();
 
     @OneToMany(mappedBy = "authorComment")

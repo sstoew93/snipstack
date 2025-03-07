@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.*;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -65,7 +64,7 @@ public class CommentService {
 
         log.info("Comment deleted: " + comment.getId());
 
-        commentRepository.delete(comment);
+        this.commentRepository.delete(comment);
     }
 
     public void editCommentByAdmin(UUID commentId, EditCommentByAdmin editComment) {
@@ -87,7 +86,4 @@ public class CommentService {
         return byId.orElseThrow(() -> new DomainException("Comment not found!"));
     }
 
-    public void deleteById(UUID id) {
-        this.commentRepository.deleteById(id);
-    }
 }

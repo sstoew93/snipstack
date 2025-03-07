@@ -1,6 +1,5 @@
 package org.example.final_project.post.service;
 
-import jakarta.transaction.Transactional;
 import org.example.final_project.exception.DomainException;
 import org.example.final_project.post.model.Post;
 import org.example.final_project.post.repository.PostRepository;
@@ -56,7 +55,6 @@ public class PostService {
         return this.postRepository.findUnansweredPosts(oneWeekAgo);
     }
 
-    @Transactional
     public void delete(Post unansweredPost) {
         this.postRepository.delete(unansweredPost);
     }
