@@ -175,8 +175,4 @@ public class UserService implements UserDetailsService {
         return new AuthenticationDetails(user.getId(), user.getUsername(), user.getPassword(), user.getAvatar(), user.getIsActive(), user.getRole(), notificationsUnread);
     }
 
-    public List<User> getUsersRegisteredInLast24Hours() {
-        LocalDateTime lastDayUsers = LocalDateTime.now().minusDays(1);
-        return this.userRepository.findAllByCreatedOnAfter(lastDayUsers);
-    }
 }

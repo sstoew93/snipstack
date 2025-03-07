@@ -9,7 +9,6 @@ import org.example.final_project.security.AuthenticationDetails;
 import org.example.final_project.user.model.User;
 import org.example.final_project.user.service.UserService;
 import org.example.final_project.web.dto.BanUser;
-import org.example.final_project.web.dto.DailyStatistics;
 import org.example.final_project.web.dto.UnbanUser;
 import org.example.final_project.web.dto.UpdateRole;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +59,6 @@ public class AdminController {
         mav.addObject("banUser", BanUser.builder().build());
         mav.addObject("unbanUser", UnbanUser.builder().build());
         mav.addObject("reports", reports);
-        mav.addObject("dailyStatistics", this.statisticsScheduler.getDailyStatistics());
 
         mav.addObject("title", "Admin Page");
         mav.setViewName("admin");

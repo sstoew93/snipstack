@@ -1,5 +1,6 @@
 package org.example.final_project.post.service;
 
+import jakarta.transaction.Transactional;
 import org.example.final_project.exception.DomainException;
 import org.example.final_project.post.model.Post;
 import org.example.final_project.post.repository.PostRepository;
@@ -51,8 +52,12 @@ public class PostService {
         return postRepository.save(post);
     }
 
-    public List<Post> getPostsInLast24Hours() {
-        LocalDateTime lastDayPosts = LocalDateTime.now().minusDays(1);
-        return this.postRepository.findAllByPostedOnAfter(lastDayPosts);
+    public List<Post> findUnansweredPosts(LocalDateTime oneWeekAgo) {
+        return this.postRepository.findUnansweredPosts(oneWeekAgo);
+    }
+
+    @Transactional
+    public void delete(Post unansweredPost) {
+        this.postRepository.delete(unansweredPost);
     }
 }

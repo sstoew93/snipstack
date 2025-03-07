@@ -46,4 +46,5 @@ public class NotificationService {
         notification.setRead(true);
         this.notificationRepository.save(notification);
     }
+
 }

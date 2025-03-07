@@ -87,9 +87,7 @@ public class CommentService {
         return byId.orElseThrow(() -> new DomainException("Comment not found!"));
     }
 
-    public List<Comment> getCommentsInLast24Hours() {
-        LocalDateTime lastDayComments = LocalDateTime.now().minusDays(1);
-        return this.commentRepository.findAllByCreatedAtAfter(lastDayComments);
-
+    public void deleteById(UUID id) {
+        this.commentRepository.deleteById(id);
     }
 }

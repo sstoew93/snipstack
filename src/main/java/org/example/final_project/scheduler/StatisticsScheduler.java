@@ -1,38 +1,36 @@
 package org.example.final_project.scheduler;
 
-import org.example.final_project.comment.service.CommentService;
+import lombok.extern.slf4j.Slf4j;
+import org.example.final_project.post.model.Post;
 import org.example.final_project.post.service.PostService;
-import org.example.final_project.user.service.UserService;
-import org.example.final_project.web.dto.DailyStatistics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import java.util.*;
+import java.time.LocalDateTime;
 
+@Slf4j
 @Component
 public class StatisticsScheduler {
 
-    private final UserService userService;
     private final PostService postService;
-    private final CommentService commentService;
 
     @Autowired
-    public StatisticsScheduler(UserService userService, PostService postService, CommentService commentService) {
-        this.userService = userService;
+    public StatisticsScheduler(PostService postService) {
         this.postService = postService;
-        this.commentService = commentService;
     }
 
-    @Scheduled(cron = "0 0 0 * * ?")
-    public DailyStatistics getDailyStatistics() {
-        Integer registrations = this.userService.getUsersRegisteredInLast24Hours().size();
-        Integer posts = this.postService.getPostsInLast24Hours().size();
-        Integer comments = this.commentService.getCommentsInLast24Hours().size();
+    @Scheduled(cron = "0 18 2 * * ?")
+    public void deleteUnansweredPosts() {
+        LocalDateTime oneWeekAgo = LocalDateTime.now().minusDays(7);
+        List<Post> unansweredPosts = this.postService.findUnansweredPosts(oneWeekAgo);
 
-        DailyStatistics dailyStatistics = new DailyStatistics();
-        dailyStatistics.setDailyRegistrationCount(registrations);
-        dailyStatistics.setDailyPostCount(posts);
-        dailyStatistics.setDailyCommentCount(comments);
-
-        return dailyStatistics;
+        if (!unansweredPosts.isEmpty()) {
+            for (Post unansweredPost : unansweredPosts) {
+                this.postService.delete(unansweredPost);
+            }
+        } else {
+            log.info("No unanswered posts to delete.");
+        }
     }
 }
