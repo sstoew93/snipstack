@@ -3,23 +3,20 @@ package org.example.final_project.user.service;
 import jakarta.transaction.Transactional;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
+import org.example.final_project.client.EmailServiceClient;
 import org.example.final_project.exception.DomainException;
 import org.example.final_project.security.AuthenticationDetails;
 import org.example.final_project.user.model.Role;
 import org.example.final_project.user.model.User;
 import org.example.final_project.user.repository.UserRepository;
-import org.example.final_project.web.dto.EditUserProfile;
-import org.example.final_project.web.dto.RegisterUser;
-import org.example.final_project.web.dto.UserChangePassword;
+import org.example.final_project.web.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -32,11 +29,13 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final EmailServiceClient emailServiceClient;
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, EmailServiceClient emailServiceClient) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.emailServiceClient = emailServiceClient;
     }
 
     @Transactional
@@ -83,6 +82,7 @@ public class UserService implements UserDetailsService {
 
     }
 
+    @Transactional
     public void banUser(String username) {
         Optional<User> byUsername = this.userRepository.findByUsername(username);
 
@@ -90,18 +90,34 @@ public class UserService implements UserDetailsService {
             User user = byUsername.get();
             user.setIsActive(false);
             user.setRole(Role.USER);
-            userRepository.save(user);
+            this.userRepository.save(user);
+            this.emailServiceClient.sendBanNotification(initializeBanNotification(user));
             log.info("Successfully banned user %s".formatted(user.getUsername()));
         }
     }
 
+    private static BanNotification initializeBanNotification(User user) {
+        return BanNotification.builder()
+                .userId(user.getId())
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .build();
+    }
+
+    @Transactional
     public void unbanUser(String username) {
         Optional<User> byUsername = this.userRepository.findByUsername(username);
 
         if (byUsername.isPresent()) {
             User user = byUsername.get();
             user.setIsActive(true);
-            userRepository.save(user);
+            this.userRepository.save(user);
+
+            UnbanNotification unbanNotification = UnbanNotification.builder()
+                    .username(user.getUsername())
+                    .build();
+            this.emailServiceClient.sendUnbanNotification(unbanNotification);
+
             log.info("Successfully unbanned user %s".formatted(user.getUsername()));
         }
 
@@ -132,10 +148,6 @@ public class UserService implements UserDetailsService {
             throw new DomainException("User not found!");
         }
 
-    }
-
-    public List<User> findBannedUsers() {
-        return this.userRepository.findAllByIsActive(Boolean.FALSE);
     }
 
     public void updateProfile(UUID userId, EditUserProfile editUserProfile) {
@@ -175,4 +187,7 @@ public class UserService implements UserDetailsService {
         return new AuthenticationDetails(user.getId(), user.getUsername(), user.getPassword(), user.getAvatar(), user.getIsActive(), user.getRole(), notificationsUnread);
     }
 
+    public void initializeAdmin(User admin) {
+        this.userRepository.save(admin);
+    }
 }

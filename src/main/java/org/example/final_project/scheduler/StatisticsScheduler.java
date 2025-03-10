@@ -1,7 +1,6 @@
 package org.example.final_project.scheduler;
 
 import lombok.extern.slf4j.Slf4j;
-import org.example.final_project.notification.service.NotificationService;
 import org.example.final_project.post.model.Post;
 import org.example.final_project.post.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +14,10 @@ import java.time.LocalDateTime;
 public class StatisticsScheduler {
 
     private final PostService postService;
-    private final NotificationService notificationService;
 
     @Autowired
-    public StatisticsScheduler(PostService postService, NotificationService notificationService) {
+    public StatisticsScheduler(PostService postService) {
         this.postService = postService;
-        this.notificationService = notificationService;
     }
 
     @Scheduled(cron = "0 00 0 * * ?")
