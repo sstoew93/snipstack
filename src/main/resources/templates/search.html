@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/shares.css">
+</head>
+<body>
+
+<th:block th:insert="~{/fragments/header :: header}"></th:block>
+
+<section class="search">
+    <p>Search results for: <strong th:text="${query}"></strong></p>
+    <form action="/search" method="get">
+        <input type="text" name="query" id="search" placeholder="Search for solutions…" th:value="${query}" required>
+        <button type="submit" class="search-btn">Search Again</button>
+    </form>
+</section>
+
+<section class="shares-list">
+    <h2>Search Results</h2>
+
+    <table class="shares-table">
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Comments</th>
+            <th>Last Updated</th>
+            <th>Last Comment Author</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="post : ${searchResults}">
+            <td><a th:href="'/forum/topic/' + ${post.id}" th:text="${post.title}"></a></td>
+            <td><a th:href="'/user/' + ${post.authorPost.id}" th:text="${post.authorPost.username}"></a></td>
+            <td th:text="${post.comments.size()}"></td>
+            <td th:text="${#temporals.format(post.updatedOn, 'dd MMM yyyy HH:mm')}"></td>
+            <td th:if="${not #lists.isEmpty(post.comments)}">
+                <a th:href="'/user/' + ${post.comments[post.comments.size() - 1].authorComment.id}"
+                   th:text="${post.comments[post.comments.size() - 1].authorComment.username}">
+                </a>
+            </td>
+            <td th:unless="${not #lists.isEmpty(post.comments)}">No comments</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <p th:if="${#lists.isEmpty(searchResults)}" class="no-results">No topics found.</p>
+</section>
+
+<th:block th:insert="~{/fragments/footer :: footer}"></th:block>
+
+</body>
+</html>

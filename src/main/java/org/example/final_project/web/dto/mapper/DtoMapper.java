@@ -64,6 +64,7 @@ public class DtoMapper {
 
     public static ContributorsList mapToContributorsList(User user) {
         return ContributorsList.builder()
+                .id(user.getId())
                 .username(user.getUsername())
                 .avatar(user.getAvatar())
                 .userPosts(user.getUserPosts())

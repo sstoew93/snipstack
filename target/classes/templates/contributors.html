@@ -28,7 +28,9 @@
             <td>
                 <img th:src="@{${user.avatar}}" alt="Avatar">
             </td>
-            <td th:text="${user.username}"></td>
+            <td>
+                <a th:href="'/user/' + ${user.id}" th:text="${user.username}"></a>
+            </td>
             <td th:text="${user.userPosts.size()}"></td>
             <td th:text="${user.userComments.size()}"></td>
             <td th:text="${user.getAverageRating}"></td>

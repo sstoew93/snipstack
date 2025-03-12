@@ -1,6 +1,8 @@
 package org.example.final_project.web;
 
 import jakarta.validation.Valid;
+import org.example.final_project.post.model.Post;
+import org.example.final_project.post.service.PostService;
 import org.example.final_project.user.service.UserService;
 import org.example.final_project.web.dto.ContributorsList;
 import org.example.final_project.web.dto.LoginUser;
@@ -20,10 +22,12 @@ import java.util.*;
 public class IndexController {
 
     private final UserService userService;
+    private final PostService postService;
 
     @Autowired
-    public IndexController(UserService userService) {
+    public IndexController(UserService userService, PostService postService) {
         this.userService = userService;
+        this.postService = postService;
     }
 
     @GetMapping("/register")
@@ -74,18 +78,19 @@ public class IndexController {
     }
 
     @GetMapping("/")
-    public String index() {
-        return "index";
+    public ModelAndView index() {
+        ModelAndView mav = new ModelAndView("index");
+
+        List<Post> lastTenPosts = this.postService.findLastTenPosts();
+
+        mav.addObject("lastPosts", lastTenPosts);
+
+        return mav;
     }
 
     @GetMapping("/error")
     public String error() {
         return "error";
-    }
-
-    @GetMapping("/messages")
-    public String getMessages() {
-        return "messages";
     }
 
 }

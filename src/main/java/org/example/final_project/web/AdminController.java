@@ -5,7 +5,6 @@ import org.example.final_project.post.model.Post;
 import org.example.final_project.post.service.PostService;
 import org.example.final_project.report.model.Report;
 import org.example.final_project.report.service.ReportService;
-import org.example.final_project.scheduler.StatisticsScheduler;
 import org.example.final_project.security.AuthenticationDetails;
 import org.example.final_project.user.model.User;
 import org.example.final_project.user.service.UserService;
@@ -13,14 +12,12 @@ import org.example.final_project.web.dto.BanUser;
 import org.example.final_project.web.dto.UnbanUser;
 import org.example.final_project.web.dto.UpdateRole;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 

@@ -58,4 +58,17 @@ public class PostService {
     public void delete(Post unansweredPost) {
         this.postRepository.delete(unansweredPost);
     }
+
+    public List<Post> findLastTenPosts() {
+        return this.postRepository.findLastTenPosts();
+    }
+
+    public List<Post> searchByTitle(String query) {
+
+        if (query == null || query.isBlank()) {
+            throw new DomainException("Please enter a valid text to search!");
+        }
+
+        return postRepository.findByTitleContainingIgnoreCase(query);
+    }
 }

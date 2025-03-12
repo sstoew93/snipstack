@@ -11,12 +11,12 @@ import java.time.LocalDateTime;
 
 @Slf4j
 @Component
-public class StatisticsScheduler {
+public class Scheduler {
 
     private final PostService postService;
 
     @Autowired
-    public StatisticsScheduler(PostService postService) {
+    public Scheduler(PostService postService) {
         this.postService = postService;
     }
 

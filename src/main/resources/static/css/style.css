@@ -80,7 +80,7 @@ header a {
 nav ul {
     list-style: none;
     display: flex;
-    align-items: center; /* Ensures nav items are aligned with the avatar */
+    align-items: center;
 }
 
 /* Navbar items */
@@ -161,6 +161,11 @@ nav ul li a {
     border-color: #2d89ef;
     outline: none;
     box-shadow: 0 0 5px rgba(45, 137, 239, 0.3);
+}
+
+tr td a {
+    text-decoration: none;
+    color: black;
 }
 
 footer {

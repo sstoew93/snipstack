@@ -1,9 +1,6 @@
 package org.example.final_project.web;
 
 import jakarta.servlet.http.HttpSession;
-import org.example.final_project.exception.DomainException;
-import org.example.final_project.notification.model.Notification;
-import org.example.final_project.notification.service.NotificationService;
 import org.example.final_project.security.AuthenticationDetails;
 import org.example.final_project.user.model.User;
 import org.example.final_project.user.service.UserService;
@@ -17,7 +14,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -25,12 +21,10 @@ import java.util.UUID;
 public class UserController {
 
     private final UserService userService;
-    private final NotificationService notificationService;
 
     @Autowired
-    public UserController(UserService userService, NotificationService notificationService) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.notificationService = notificationService;
     }
 
     @GetMapping("/profile")
@@ -98,33 +92,5 @@ public class UserController {
 
         return "redirect:/";
     }
-
-//    @GetMapping("/notifications")
-//    public ModelAndView getUserNotifications(@AuthenticationPrincipal AuthenticationDetails authentication) {
-//        ModelAndView modelAndView = new ModelAndView("notifications");
-//
-//        User user = userService.findById(authentication.getId());
-//
-//        List<Notification> unreadNotificationsByUser = notificationService.findUnreadNotificationsByUser(user);
-//
-//        modelAndView.addObject("unreadNotifications", unreadNotificationsByUser);
-//        modelAndView.addObject("user", user);
-//
-//        return modelAndView;
-//    }
-//
-//    @GetMapping("/notifications/read/{id}")
-//    public String markNotificationAsRead(@PathVariable UUID id, @AuthenticationPrincipal AuthenticationDetails authentication) {
-//        Notification notification = notificationService.findById(id);
-//
-//        this.notificationService.save(notification);
-//
-//        return "redirect:/forum/topic/" + notification.getPost().getId();
-//    }
-
-
-
-
-
 
 }
