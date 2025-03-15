@@ -92,7 +92,7 @@ public class AdminController {
     @PutMapping("/reports/resolve")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String resolveReport(@RequestParam UUID reportId) {
-        Report report = this.reportService.findById(reportId);
+        Report report = this.reportService.findById(reportId).get();
         Post post = this.postService.findById(report.getComment().getPost().getId());
 
         this.reportService.resolve(report);

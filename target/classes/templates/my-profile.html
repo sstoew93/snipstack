@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Profile</title>
+    <title>SnipStack - My Profile</title>
+    <link rel="icon" type="image/png" href="/images/favicon.webp">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/my-profile.css">
 </head>
@@ -61,15 +62,15 @@
                     <input type="hidden" name="_method" value="PUT"/>
                     <label for="old-password">Old Password:</label>
                     <input type="password" id="old-password" name="old-password" required th:field="*{oldPassword}" placeholder="Old Password">
-                    <p th:errors="*{oldPassword}" class="error-message"></p>
-                    
+                    <p class="error-message" th:text="${oldPasswordError}"></p>
+
                     <label for="new-password">New Password:</label>
                     <input type="password" id="new-password" name="new-password" required th:field="*{newPassword}" placeholder="New Password">
-                    <p th:errors="*{newPassword}" class="error-message"></p>
+                    <p class="error-message" th:text="${confirmPasswordError}"></p>
 
                     <label for="confirm-password">Confirm New Password:</label>
                     <input type="password" id="confirm-password" name="confirm-password" required th:field="*{confirmPassword}" placeholder="Confirm new Password">
-                    <p th:errors="*{confirmPassword}" class="error-message"></p>
+                    <p class="error-message" th:text="${confirmPasswordError}"></p>
 
                     <button type="submit" class="btn-save">Change Password</button>
                 </form>

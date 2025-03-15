@@ -88,9 +88,4 @@ public class IndexController {
         return mav;
     }
 
-    @GetMapping("/error")
-    public String error() {
-        return "error";
-    }
-
 }

@@ -80,27 +80,34 @@ header a {
 nav ul {
     list-style: none;
     display: flex;
+    gap: 15px;
     align-items: center;
 }
 
 /* Navbar items */
-nav ul li {
-    margin: 0 15px;
-    display: flex;
-    align-items: center;
-}
-
-nav ul li a:hover {
-    color: #0056b3;
-    transition: all 0.4s ease;
-}
-
 nav ul li a {
-    transition:1s;
+    position: relative;
     color: white;
     text-decoration: none;
     font-weight: bold;
     font-size: 18px;
+    transition: color 0.3s;
+}
+
+nav ul li a::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -3px;
+    width: 0;
+    height: 2px;
+    background: white;
+    transition: width 0.3s ease, left 0.3s ease;
+}
+
+nav ul li a:hover::after {
+    width: 100%;
+    left: 0;
 }
 
 @keyframes fadeIn {

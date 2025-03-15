@@ -34,7 +34,7 @@ public class CommentService {
 
     public void addCommentToPost(AddComment addComment, UUID postId, User user) {
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid post ID"));
+                .orElseThrow(() -> new DomainException("Post with id [%s] not found!".formatted(postId)));
         Comment comment = new Comment();
 
         if (addComment.getBlockCode() != null && !addComment.getBlockCode().isEmpty()) {
@@ -55,16 +55,18 @@ public class CommentService {
             String message = user.getUsername() + " commented on your topic.";
             notificationService.sendNotification(post.getAuthorPost(), message, post);
         }
+
+        log.info("User [%s] added comment to post with id [%s]".formatted(user.getUsername(), postId));
     }
 
 
     public void deleteComment(UUID commentId) {
         Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new IllegalArgumentException("Comment not found"));
-
-        log.info("Comment deleted: " + comment.getId());
+                .orElseThrow(() -> new DomainException("Comment with id [%s] not found".formatted(commentId)));
 
         this.commentRepository.delete(comment);
+
+        log.info("Comment with id [%s] deleted".formatted(commentId));
     }
 
     public void editCommentByAdmin(UUID commentId, EditCommentByAdmin editComment) {
@@ -77,6 +79,8 @@ public class CommentService {
         comment.setContent(editComment.getContent());
 
         commentRepository.save(comment);
+
+        log.info("Comment with id [%s] edited by admin/moderator".formatted(commentId));
     }
 
     public Comment findById(UUID commentId) {

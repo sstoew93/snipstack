@@ -1,5 +1,7 @@
 package org.example.final_project.notification.service;
 
+import lombok.extern.slf4j.Slf4j;
+import org.example.final_project.exception.DomainException;
 import org.example.final_project.notification.model.Notification;
 import org.example.final_project.notification.repository.NotificationRepository;
 import org.example.final_project.post.model.Post;
@@ -11,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 
+@Slf4j
 @Service
 public class NotificationService {
 
@@ -23,10 +26,6 @@ public class NotificationService {
 
     public void sendNotification(User recipient, String message, Post post) {
 
-        if (post.getId() == null) {
-            throw new IllegalArgumentException("Post must have a valid topic_id");
-        }
-
         Notification notification = Notification.builder()
                 .user(recipient)
                 .message(message)
@@ -36,15 +35,18 @@ public class NotificationService {
                 .build();
 
         notificationRepository.save(notification);
+        log.info("Notification sent to [%s]".formatted(recipient.getUsername()));
     }
 
     public Notification findById(UUID id) {
-        return this.notificationRepository.findById(id).orElseThrow();
+        return this.notificationRepository.findById(id).orElseThrow(() -> new DomainException("Notification with id [%s] not found".formatted(id)));
     }
 
     public void save(Notification notification) {
         notification.setRead(true);
         this.notificationRepository.save(notification);
+
+        log.info("Notification [%s] reviewed by user [%s]".formatted(notification.getId(), notification.getUser().getUsername()));
     }
 
 }

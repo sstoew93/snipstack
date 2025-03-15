@@ -1,6 +1,8 @@
 package org.example.final_project.report.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.example.final_project.comment.model.Comment;
+import org.example.final_project.exception.ReportNotFoundException;
 import org.example.final_project.report.model.Report;
 import org.example.final_project.report.repository.ReportRepository;
 import org.example.final_project.user.model.User;
@@ -13,6 +15,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@Slf4j
 public class ReportService {
 
     private final ReportRepository reportRepository;
@@ -33,6 +36,7 @@ public class ReportService {
                 .build();
 
         this.reportRepository.save(report);
+        log.info("Report created! User %s reported %s for comment with id [%s]".formatted(reporter.getUsername(), reported.getUsername(), report.getComment().getId()));
     }
 
     public List<Report> findAll() {
@@ -43,14 +47,15 @@ public class ReportService {
         Optional<Report> reportOptional = this.reportRepository.findById(report.getId());
 
         if (reportOptional.isEmpty()) {
-            throw new IllegalArgumentException("Report with id " + report.getId() + " not found");
+            throw new ReportNotFoundException("Report with id [" + report.getId() + "] not found");
         }
 
         report.setResolved(true);
         this.reportRepository.save(report);
+        log.info("Resolved report with id [%s]".formatted(report.getId()));
     }
 
-    public Report findById(UUID reportId) {
-        return this.reportRepository.findById(reportId).orElse(null);
+    public Optional<Report> findById(UUID reportId) {
+        return this.reportRepository.findById(reportId);
     }
 }

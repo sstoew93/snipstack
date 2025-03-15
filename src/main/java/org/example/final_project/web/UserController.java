@@ -32,13 +32,8 @@ public class UserController {
         ModelAndView modelAndView = new ModelAndView("my-profile");
 
         UUID userID = authentication.getId();
-
-        if (userID == null) {
-            modelAndView.setViewName("redirect:/login");
-            return modelAndView;
-        }
-
         User loggedUser = userService.findById(userID);
+
         modelAndView.addObject("user", DtoMapper.mapToUserProfileInfo(loggedUser));
         modelAndView.addObject("editProfile", DtoMapper.UserProfileEdit(loggedUser));
         modelAndView.addObject("changePassword", DtoMapper.changePassword(loggedUser));
@@ -47,7 +42,7 @@ public class UserController {
     }
 
     @PutMapping("/profile/edit-password")
-    public ModelAndView editPassword(UserChangePassword changePassword,@AuthenticationPrincipal AuthenticationDetails authentication, BindingResult bindingResult) {
+    public ModelAndView editPassword(UserChangePassword changePassword,  BindingResult bindingResult, @AuthenticationPrincipal AuthenticationDetails authentication) {
         if (bindingResult.hasErrors()) {
             return new ModelAndView("my-profile");
         }

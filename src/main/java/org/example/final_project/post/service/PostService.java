@@ -1,5 +1,6 @@
 package org.example.final_project.post.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.example.final_project.exception.DomainException;
 import org.example.final_project.post.model.Post;
 import org.example.final_project.post.repository.PostRepository;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.*;
 
+@Slf4j
 @Service
 public class PostService {
 
@@ -48,6 +50,8 @@ public class PostService {
         post.setPostedOn(LocalDateTime.now());
         post.setUpdatedOn(LocalDateTime.now());
 
+        log.info("Added new post [%s] from [%s] at %s".formatted(post.getTitle(), post.getAuthorPost().getUsername(), post.getPostedOn()));
+
         return postRepository.save(post);
     }
 
@@ -57,6 +61,7 @@ public class PostService {
 
     public void delete(Post unansweredPost) {
         this.postRepository.delete(unansweredPost);
+        log.info("Scheduler: Deleted post with title [%s]".formatted(unansweredPost.getTitle()));
     }
 
     public List<Post> findLastTenPosts() {

@@ -4,7 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 import org.example.final_project.client.EmailServiceClient;
-import org.example.final_project.exception.DomainException;
+import org.example.final_project.exception.*;
 import org.example.final_project.security.AuthenticationDetails;
 import org.example.final_project.user.model.Role;
 import org.example.final_project.user.model.User;
@@ -44,11 +44,11 @@ public class UserService implements UserDetailsService {
         Optional<User> byEmail = userRepository.findByEmail(registerUser.getEmail());
 
         if (byUsername.isPresent()) {
-            throw new DomainException("Username already in use!");
+            throw new UsernameAlreadyExistException("Username already in use!");
         }
 
         if (byEmail.isPresent()) {
-            throw new DomainException("Email already in use!");
+            throw new EmailAlreadyExistException("Email already in use!");
         }
 
         User user = createUser(registerUser);
@@ -127,7 +127,7 @@ public class UserService implements UserDetailsService {
 
         Optional<User> byId = userRepository.findById(uuid);
 
-        return byId.orElseThrow(() -> new DomainException("User not found!"));
+        return byId.orElseThrow(() -> new UserNotFoundException("User not found!"));
     }
 
     public int getAll() {
@@ -145,7 +145,7 @@ public class UserService implements UserDetailsService {
         if (user.isPresent()) {
             return user.get();
         } else {
-            throw new DomainException("User not found!");
+            throw new UserNotFoundException("User not found!");
         }
 
     }
@@ -158,21 +158,28 @@ public class UserService implements UserDetailsService {
         user.setAvatar(editUserProfile.getAvatar());
 
         this.userRepository.save(user);
+        log.info("Updated profile for user %s".formatted(user.getUsername()));
     }
 
     public void changePassword(UUID id, UserChangePassword changePassword) {
         User user = findById(id);
 
-        if (!passwordEncoder.matches(changePassword.getOldPassword(), user.getPassword())) {
-            throw new DomainException("Old password incorrect!");
+        if (!passwordEncoder.matches(changePassword.getOldPassword(), user.getPassword())
+                || changePassword.getNewPassword().length() < 6
+                || changePassword.getNewPassword().length() > 20
+                || changePassword.getConfirmPassword().length() < 6
+                || changePassword.getConfirmPassword().length() > 20) {
+            throw new UserPasswordNotMatch("Incorrect old password or password length is not between 6 and 20 characters!");
         }
 
         if (!changePassword.getNewPassword().equals(changePassword.getConfirmPassword())) {
-            throw new DomainException("Passwords do not match!");
+            throw new UserPasswordNotMatch("Passwords do not match!");
         }
+
 
         user.setPassword(passwordEncoder.encode(changePassword.getNewPassword()));
         this.userRepository.save(user);
+        log.info("Changed password for user %s".formatted(user.getUsername()));
     }
 
     @Override
