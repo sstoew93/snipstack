@@ -186,10 +186,11 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = this.userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found!"));
 
-        int notificationsUnread = user.getNotifications().stream()
-                .filter(notification -> !notification.isRead())
-                .toList()
-                .size();
+        int notificationsUnread = (user.getNotifications() == null) ? 0 :
+                user.getNotifications().stream()
+                        .filter(notification -> !notification.isRead())
+                        .toList()
+                        .size();
 
         return new AuthenticationDetails(user.getId(), user.getUsername(), user.getPassword(), user.getAvatar(), user.getIsActive(), user.getRole(), notificationsUnread);
     }

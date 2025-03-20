@@ -33,6 +33,6 @@ public class RatingService {
         return ratingRepository.findByUserAndComment(user, comment).isPresent();
     }
 
-
-
+    // TODO: When a user already voted, the rating system should not be visible and informative text
+    //  "You already rated this comment" should appear instead
 }
