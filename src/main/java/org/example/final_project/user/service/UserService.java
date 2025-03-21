@@ -130,8 +130,8 @@ public class UserService implements UserDetailsService {
         return byId.orElseThrow(() -> new UserNotFoundException("User not found!"));
     }
 
-    public int getAll() {
-        return (int) userRepository.count();
+    public long getAll() {
+        return userRepository.count();
     }
 
 

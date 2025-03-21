@@ -1,5 +1,6 @@
 package org.example.final_project;
 
+import org.example.final_project.user.service.UserInit;
 import org.example.final_project.user.service.UserService;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -35,6 +36,9 @@ public class UserServiceUTest {
 
     @Mock
     private EmailServiceClient emailServiceClient;
+
+    @Mock
+    private UserInit userInit;
 
     @InjectMocks
     private UserService userService;
@@ -122,8 +126,8 @@ public class UserServiceUTest {
 
         assertFalse(testUser.getIsActive());
         assertEquals(Role.USER, testUser.getRole());
-        verify(emailServiceClient).sendBanNotification(any());
-        verify(userRepository).save(testUser);
+        verify(emailServiceClient, times(1)).sendBanNotification(any());
+        verify(userRepository, times(1)).save(testUser);
     }
 
     @Test
@@ -291,4 +295,18 @@ public class UserServiceUTest {
 
         assertEquals(users, result);
     }
+
+    @Test
+    void initializeAdmin_ShouldSaveAdmin() {
+        long userCount = 0;
+
+        when(userRepository.count()).thenReturn(userCount);
+
+        userService.initializeAdmin(testUser);
+        when(userRepository.count()).thenReturn(userCount+ 1);
+
+        assertEquals(1, userRepository.count());
+        verify(userRepository, times(1)).save(testUser);
+    }
+
 }
