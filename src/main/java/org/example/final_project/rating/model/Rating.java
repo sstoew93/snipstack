@@ -1,10 +1,7 @@
 package org.example.final_project.rating.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.example.final_project.comment.model.Comment;
 import org.example.final_project.user.model.User;
 
@@ -15,6 +12,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Table(name = "ratings")
 public class Rating {
 

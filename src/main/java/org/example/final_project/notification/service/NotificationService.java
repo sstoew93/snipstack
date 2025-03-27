@@ -39,7 +39,8 @@ public class NotificationService {
     }
 
     public Notification findById(UUID id) {
-        return this.notificationRepository.findById(id).orElseThrow(() -> new DomainException("Notification with id [%s] not found".formatted(id)));
+        return this.notificationRepository.findById(id)
+                .orElseThrow(() -> new DomainException("Notification with id [%s] not found".formatted(id)));
     }
 
     public void save(Notification notification) {

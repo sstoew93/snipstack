@@ -3,6 +3,7 @@ package org.example.final_project.web;
 import org.example.final_project.exception.*;
 import org.hibernate.TypeMismatchException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -10,7 +11,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
-import java.nio.file.AccessDeniedException;
 
 @ControllerAdvice
 public class ExceptionHandlerAdvice {
@@ -48,11 +48,18 @@ public class ExceptionHandlerAdvice {
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler({NoResourceFoundException.class, TypeMismatchException.class, AccessDeniedException.class, DomainException.class})
+    @ExceptionHandler({NoResourceFoundException.class, TypeMismatchException.class, DomainException.class})
     public ModelAndView handleNotFoundException() {
 
         return new ModelAndView("not-found");
     }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(AccessDeniedException.class)
+    public ModelAndView handleAccessDeniedException() {
+        return new ModelAndView("not-found");
+    }
+
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
@@ -74,6 +81,5 @@ public class ExceptionHandlerAdvice {
 
         return "redirect:/topic/";
     }
-
 
 }

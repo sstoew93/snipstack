@@ -1,6 +1,7 @@
 package org.example.final_project.security;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import org.example.final_project.user.model.Role;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,6 +14,7 @@ import java.util.UUID;
 
 @Data
 @AllArgsConstructor
+@Builder
 public class AuthenticationDetails implements UserDetails {
 
     private UUID id;

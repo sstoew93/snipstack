@@ -22,6 +22,8 @@ public class WebMVCConfiguration implements WebMvcConfigurer {
                         .requestMatchers("/forum/topic/**").permitAll()
                 .requestMatchers("/admin").hasAuthority("ADMIN")
                 .anyRequest().authenticated())
+                .exceptionHandling(exception -> exception
+                        .accessDeniedPage("/not-found"))
                 .formLogin(form -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/user/profile")
