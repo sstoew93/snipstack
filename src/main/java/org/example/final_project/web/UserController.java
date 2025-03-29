@@ -1,6 +1,7 @@
 package org.example.final_project.web;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.example.final_project.security.AuthenticationDetails;
 import org.example.final_project.user.model.User;
 import org.example.final_project.user.service.UserService;
@@ -42,15 +43,14 @@ public class UserController {
     }
 
     @PutMapping("/profile/edit-password")
-    public ModelAndView editPassword(UserChangePassword changePassword,  BindingResult bindingResult, @AuthenticationPrincipal AuthenticationDetails authentication) {
+    public ModelAndView editPassword(@Valid UserChangePassword changePassword, BindingResult bindingResult, @AuthenticationPrincipal AuthenticationDetails authentication) {
         if (bindingResult.hasErrors()) {
-            return new ModelAndView("my-profile");
+            return new ModelAndView("redirect:/user/profile");
         }
 
         ModelAndView modelAndView = new ModelAndView("redirect:/user/profile");
 
         UUID userID = authentication.getId();
-
         userService.changePassword(userID, changePassword);
 
         return modelAndView;

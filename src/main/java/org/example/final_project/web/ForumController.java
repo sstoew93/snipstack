@@ -1,6 +1,5 @@
 package org.example.final_project.web;
 
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.example.final_project.post.model.Post;
 import org.example.final_project.post.service.PostService;
@@ -68,11 +67,6 @@ public class ForumController {
         }
 
         UUID userId = authentication.getId();
-
-        if (userId == null) {
-            return new ModelAndView("redirect:/login");
-        }
-
         User loggedUser = userService.findById(userId);
 
         Post post = postService.addPost(addTopic, loggedUser);
@@ -87,12 +81,6 @@ public class ForumController {
     @GetMapping("/topic/{id}")
     public ModelAndView getTopicPage(@PathVariable UUID id,  @AuthenticationPrincipal AuthenticationDetails authentication) {
         Post post = postService.findById(id);
-
-        if (authentication == null) {
-            ModelAndView mav = new ModelAndView("topic");
-            mav.addObject("post", post);
-            return mav;
-        }
 
         UUID userId = authentication.getId();
         User loggedUser = userService.findById(userId);

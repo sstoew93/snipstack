@@ -43,7 +43,7 @@ public class UserInfo {
                 .average()
                 .orElse(0.00);
 
-        return String.format("%.2f", average); // Ensures 2 decimal places
+        return String.format("%.2f", average);
     }
 
 

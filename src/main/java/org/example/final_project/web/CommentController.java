@@ -113,7 +113,7 @@ public class CommentController {
         return new ModelAndView("redirect:/forum/topic/" + postId);
     }
 
-    // TODO:
+
     @PostMapping("/topic/{postId}/report-comment/{commentId}")
     public ModelAndView reportComment(@PathVariable UUID postId, @PathVariable UUID commentId, @AuthenticationPrincipal AuthenticationDetails authentication) {
         User reportedUser = this.commentService.findById(commentId).getAuthorComment();

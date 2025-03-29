@@ -44,14 +44,8 @@ public class AdminController {
         ModelAndView mav = new ModelAndView();
 
         UUID userId = authentication.getId();
-//        List<User> bannedUsers = this.userService.findBannedUsers();
         List<User> bannedUsers = emailServiceClient.getBannedUsers();
         List<Report> reports = this.reportService.findAll();
-
-        if (userId == null) {
-            mav.setViewName("redirect:/login");
-            return mav;
-        }
 
         User user = userService.findById(userId);
         mav.addObject("user", user);
@@ -99,6 +93,5 @@ public class AdminController {
 
         return "redirect:/forum/topic/" + post.getId();
     }
-
 
 }

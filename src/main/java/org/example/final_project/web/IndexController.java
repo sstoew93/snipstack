@@ -68,9 +68,7 @@ public class IndexController {
         List<ContributorsList> contributorsLists = this.userService.findAll()
                 .stream()
                 .map(DtoMapper::mapToContributorsList)
-                .sorted((a, b) -> Double.compare(
-                        Double.parseDouble(b.getAverageRating()),
-                        Double.parseDouble(a.getAverageRating())
+                .sorted((a, b) -> Double.compare(Double.parseDouble(b.getAverageRating()), Double.parseDouble(a.getAverageRating())
                 )).toList();
 
         modelAndView.addObject("contributors", contributorsLists);

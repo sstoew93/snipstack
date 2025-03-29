@@ -37,6 +37,9 @@ public class RatingControllerAPITest {
     private RatingService ratingService;
 
     @MockitoBean
+    private NotificationService notificationService;
+
+    @MockitoBean
     private UserService userService;
 
     @MockitoBean
