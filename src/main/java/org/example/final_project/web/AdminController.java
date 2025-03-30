@@ -47,6 +47,11 @@ public class AdminController {
         List<User> bannedUsers = emailServiceClient.getBannedUsers();
         List<Report> reports = this.reportService.findAll();
 
+        if (userId == null) {
+            mav.setViewName("redirect:/login");
+            return mav;
+        }
+
         User user = userService.findById(userId);
         mav.addObject("user", user);
         mav.addObject("bannedUsers", bannedUsers);
