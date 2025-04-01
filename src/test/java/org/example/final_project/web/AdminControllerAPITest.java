@@ -208,14 +208,33 @@ public class AdminControllerAPITest {
                 .with(user(principal))
                 .with(csrf());
 
-        when(emailServiceClient.getBannedUsers()).thenReturn(new ArrayList<>());
         when(reportService.findAll()).thenReturn(new ArrayList<>());
         when(userService.findById(any(UUID.class))).thenReturn(user);
 
         mockMvc.perform(request)
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin"))
-                .andExpect(model().attributeExists("bannedUsers"))
+                .andExpect(model().attributeExists("reports"))
+                .andExpect(model().attributeExists("updateRole"))
+                .andExpect(model().attributeExists("user"))
+                .andExpect(model().attributeExists("title"));
+
+        verify(reportService, times(1)).findAll();
+    }
+
+    @Test
+    void getRequestToBanAndUnban_ShouldReturnBanAndUnbanView() throws Exception {
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/admin/banned-users")
+                .with(user(principal))
+                .with(csrf());
+
+        when(emailServiceClient.getBannedUsers()).thenReturn(new ArrayList<>());
+        when(reportService.findAll()).thenReturn(new ArrayList<>());
+        when(userService.findById(any(UUID.class))).thenReturn(user);
+
+        mockMvc.perform(request)
+                .andExpect(status().isOk())
+                .andExpect(view().name("banned-users"))
                 .andExpect(model().attributeExists("reports"))
                 .andExpect(model().attributeExists("updateRole"))
                 .andExpect(model().attributeExists("unbanUser"))
