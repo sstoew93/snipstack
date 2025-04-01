@@ -46,12 +46,16 @@ public class CommentController {
 
     @PostMapping("/topics/{postId}/add")
     public ModelAndView submitComment(@PathVariable UUID postId, @Valid AddComment addComment, BindingResult bindingResult, @AuthenticationPrincipal AuthenticationDetails authentication) {
-        if (bindingResult.hasErrors()) {
-            return new ModelAndView("topic" + "/" + postId);
-        }
-
         UUID userId = authentication.getId();
         User user = userService.findById(userId);
+
+        if (bindingResult.hasErrors()) {
+            ModelAndView mav = new ModelAndView("topic");
+            mav.addObject("post", postService.findById(postId));
+            mav.addObject("addComment", addComment);
+            mav.addObject("user", user);
+            return mav;
+        }
 
         if (addComment.getContent().trim().length() < 10) {
             ModelAndView mav = new ModelAndView("topic");
