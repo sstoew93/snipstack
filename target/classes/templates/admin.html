@@ -16,7 +16,7 @@
     <aside class="sidebar">
         <ul>
             <li><a href="javascript:void(0);" onclick="showSection('manage-roles')">Manage Roles</a></li>
-            <li><a href="javascript:void(0);" onclick="showSection('banned-users')">Ban/Unban Users</a></li>
+            <li><a href="/admin/banned-users">Ban/Unban Users</a></li>
             <li><a href="javascript:void(0);" onclick="showSection('reports-dashboard')">Reports Dashboard</a></li>
             <li><a href="javascript:void(0);" onclick="showSection('statistics')">Statistics</a></li>
         </ul>
@@ -44,43 +44,43 @@
             </form>
         </section>
 
-        <section id="banned-users" class="content-section">
-            <div class="banned-users-list">
-                <div class="banned-users-header">
-                    <h2>Banned Users</h2>
-                    <form th:action="@{/admin/ban-user}" th:method="PUT" class="ban-user-form" th:object="${banUser}">
-                        <input type="hidden" name="_method" value="PUT" />
-                        <input type="text" id="banned-search" name="username" class="form-group" placeholder="Enter username" th:field="*{username}">
-                        <button class="regular-btn" type="submit">Ban</button>
-                    </form>
-                </div>
-                <table class="banned-users-table">
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Username</th>
-                        <th>Email</th>
-                        <th>Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody id="banned-users-table">
-                    <tr th:each="user : ${bannedUsers}">
-                        <td th:text="${user.id}"></td>
-                        <td th:text="${user.username}"></td>
-                        <td th:text="${user.email}"></td>
-                        <td>
-                            <form th:action="@{/admin/unban-user}" th:method="PUT">
-                                <input type="hidden" name="_method" value="PUT"/>
-                                <input type="hidden" name="username" th:value="${user.username}"/>
-                                <button class="regular-btn" type="submit">Unban</button>
-                            </form>
-                        </td>
-                    </tr>
-                    </tbody>
+<!--        <section id="banned-users" class="content-section">-->
+<!--            <div class="banned-users-list">-->
+<!--                <div class="banned-users-header">-->
+<!--                    <h2>Banned Users</h2>-->
+<!--                    <form th:action="@{/admin/ban-user}" th:method="PUT" class="ban-user-form" th:object="${banUser}">-->
+<!--                        <input type="hidden" name="_method" value="PUT" />-->
+<!--                        <input type="text" id="banned-search" name="username" class="form-group" placeholder="Enter username" th:field="*{username}">-->
+<!--                        <button class="regular-btn" type="submit">Ban</button>-->
+<!--                    </form>-->
+<!--                </div>-->
+<!--                <table class="banned-users-table">-->
+<!--                    <thead>-->
+<!--                    <tr>-->
+<!--                        <th>ID</th>-->
+<!--                        <th>Username</th>-->
+<!--                        <th>Email</th>-->
+<!--                        <th>Actions</th>-->
+<!--                    </tr>-->
+<!--                    </thead>-->
+<!--                    <tbody id="banned-users-table">-->
+<!--                    <tr th:each="user : ${bannedUsers}">-->
+<!--                        <td th:text="${user.id}"></td>-->
+<!--                        <td th:text="${user.username}"></td>-->
+<!--                        <td th:text="${user.email}"></td>-->
+<!--                        <td>-->
+<!--                            <form th:action="@{/admin/unban-user}" th:method="PUT">-->
+<!--                                <input type="hidden" name="_method" value="PUT"/>-->
+<!--                                <input type="hidden" name="username" th:value="${user.username}"/>-->
+<!--                                <button class="regular-btn" type="submit">Unban</button>-->
+<!--                            </form>-->
+<!--                        </td>-->
+<!--                    </tr>-->
+<!--                    </tbody>-->
 
-                </table>
-            </div>
-        </section>
+<!--                </table>-->
+<!--            </div>-->
+<!--        </section>-->
 
         <section id="reports-dashboard" class="content-section">
             <div class="reports-list">

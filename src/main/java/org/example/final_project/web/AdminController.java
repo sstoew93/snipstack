@@ -44,7 +44,6 @@ public class AdminController {
         ModelAndView mav = new ModelAndView();
 
         UUID userId = authentication.getId();
-        List<User> bannedUsers = emailServiceClient.getBannedUsers();
         List<Report> reports = this.reportService.findAll();
 
         if (userId == null) {
@@ -54,7 +53,6 @@ public class AdminController {
 
         User user = userService.findById(userId);
         mav.addObject("user", user);
-        mav.addObject("bannedUsers", bannedUsers);
         mav.addObject("updateRole", UpdateRole.builder().build());
         mav.addObject("banUser", BanUser.builder().build());
         mav.addObject("unbanUser", UnbanUser.builder().build());
@@ -65,6 +63,36 @@ public class AdminController {
 
         return mav;
     }
+
+    @GetMapping("/banned-users")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ModelAndView bannedUsers(@AuthenticationPrincipal AuthenticationDetails authentication) {
+        ModelAndView mav = new ModelAndView();
+
+        UUID userId = authentication.getId();
+
+        if (userId == null) {
+            mav.setViewName("redirect:/login");
+            return mav;
+        }
+
+        User user = userService.findById(userId);
+        List<User> bannedUsers = emailServiceClient.getBannedUsers();
+        List<Report> reports = this.reportService.findAll();
+
+        mav.addObject("user", user);
+        mav.addObject("bannedUsers", bannedUsers);
+        mav.addObject("title", "Banned Users");
+
+        mav.addObject("updateRole", UpdateRole.builder().build());
+        mav.addObject("banUser", BanUser.builder().build());
+        mav.addObject("unbanUser", UnbanUser.builder().build());
+        mav.addObject("reports", reports);
+        mav.setViewName("banned-users");
+
+        return mav;
+    }
+
 
     @PutMapping("/updateRole")
     @PreAuthorize("hasAuthority('ADMIN')")
