@@ -25,10 +25,10 @@ public class Post {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "content", nullable = false)
+    @Column(name = "content", nullable = false, columnDefinition = "LONGTEXT")
     private String content;
 
-    @Column(name = "blockCode",columnDefinition = "MEDIUMTEXT")
+    @Column(name = "blockCode",columnDefinition = "LONGTEXT")
     private String blockCode;
 
     @Column(name = "posted_on")
@@ -41,7 +41,7 @@ public class Post {
     @JoinColumn(name = "author_id")
     private User authorPost;
 
-    @OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
     @OrderBy("createdAt ASC")
     private List<Comment> comments = new ArrayList<>();
 
