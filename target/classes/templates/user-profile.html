@@ -14,7 +14,11 @@
 
 <div class="container">
     <div class="my-profile">
-        <img th:src="${user.avatar}" alt="User Avatar" class="avatar">
+        <img th:src="${user.avatar != null and not #strings.isEmpty(user.avatar)
+              ? user.avatar
+              : '/images/default-avatar.png'}"
+             alt="User Avatar"
+             class="avatar">
         <h3 th:text="${user.username}"></h3>
         <p class="active-user" th:if="${user.isActive}">ACTIVE</p>
         <p class="banned-user" th:if="${!user.isActive}">BANNED</p>

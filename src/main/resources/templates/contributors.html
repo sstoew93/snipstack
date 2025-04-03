@@ -27,7 +27,7 @@
         <tbody>
         <tr th:each="user : ${contributors}">
             <td>
-                <img th:src="@{${user.avatar}}" alt="Avatar">
+                <img th:src="${user.avatar != null && user.avatar != '' ? user.avatar : '/images/default-avatar.png'}" alt="Avatar">
             </td>
             <td>
                 <a th:href="'/user/' + ${user.id}" th:text="${user.username}"></a>

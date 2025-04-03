@@ -16,7 +16,11 @@
 <section class="topic-container">
     <div class="author-profile">
         <div class="author-header">
-            <img th:src="${post.authorPost.avatar}" alt="Author Avatar" class="author-avatar">
+            <img th:src="${post.authorPost.avatar != null and not #strings.isEmpty(post.authorPost.avatar)
+              ? post.authorPost.avatar
+              : '/images/default-avatar.png'}"
+                 alt="Comment Author Avatar"
+                 class="author-avatar">
             <h3><a th:href="'/user/' + ${post.authorPost.id}" th:text="${post.authorPost.username}"></a></h3>
         </div>
         <div class="author-info">
@@ -50,7 +54,11 @@
         <div class="comment" th:each="comment : ${post.comments}">
             <div class="author-profile">
                 <div class="author-header">
-                    <img th:src="${comment.authorComment.avatar}" alt="Comment Author Avatar" class="author-avatar">
+                    <img th:src="${comment.authorComment.avatar != null and not #strings.isEmpty(comment.authorComment.avatar)
+              ? comment.authorComment.avatar
+              : '/images/default-avatar.png'}"
+                         alt="Comment Author Avatar"
+                         class="author-avatar">
                     <h3><a th:href="'/user/' + ${comment.authorComment.id}" th:text="${comment.authorComment.username}"></a></h3>
                 </div>
                 <div class="author-info">

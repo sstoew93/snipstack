@@ -15,7 +15,12 @@
 
                 <li sec:authorize="isAuthenticated()" class="profile-dropdown">
                     <div class="profile-avatar">
-                        <img th:src="${#authentication.principal.userAvatar}" alt="User Avatar" class="avatar">
+                        <img th:src="${#authentication.principal.userAvatar != null and not #strings.isEmpty(#authentication.principal.userAvatar)
+              ? #authentication.principal.userAvatar
+              : '/images/default-avatar.png'}"
+                             alt="User Avatar"
+                             class="avatar">
+
                     </div>
                     <ul class="dropdown-menu">
                         <li sec:authorize="hasAuthority('ADMIN')">
